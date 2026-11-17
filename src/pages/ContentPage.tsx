@@ -30,12 +30,23 @@ const FILTER_TABS: FilterTab[] = [
 
 export const ContentPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<FilterTab>('All');
+  const [selectedVideoId, setSelectedVideoId] = useState<string | undefined>(undefined);
+  const [playSignal, setPlaySignal] = useState(0);
   const pageRef = useRef<HTMLDivElement>(null);
 
   const filteredVideos: VideoContentItem[] = useMemo(() => {
     if (activeTab === 'All') return FEATURED_VIDEOS;
     return FEATURED_VIDEOS.filter((v) => v.category === activeTab);
   }, [activeTab]);
+
+  const handlePlayInTheatre = (youtubeId?: string) => {
+    if (!youtubeId) return;
+    setActiveTab('All');
+    setSelectedVideoId(youtubeId);
+    setPlaySignal((s) => s + 1);
+    const el = document.getElementById('videos');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const projectPhotos = PHOTO_ARCHIVE.filter(
     (item) => item.category === 'Real Plumbing Projects'
@@ -161,6 +172,8 @@ export const ContentPage: React.FC = () => {
           <YouTubeTheatre
             key={activeTab}
             videos={filteredVideos}
+            activeVideoId={selectedVideoId}
+            playSignal={playSignal}
           />
         </div>
       </section>
@@ -190,11 +203,10 @@ export const ContentPage: React.FC = () => {
                 key={item.id}
                 className={idx % 3 === 1 ? 'lg:translate-y-8' : ''}
               >
-                <a
-                  href={`https://www.youtube.com/watch?v=${item.youtubeId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block"
+                <button
+                  type="button"
+                  onClick={() => handlePlayInTheatre(item.youtubeId)}
+                  className="group block w-full text-left bg-transparent border-0 p-0 cursor-pointer"
                 >
                   <div className="aspect-[4/5] w-full overflow-hidden bg-[#17232C]">
                     <img
@@ -211,14 +223,14 @@ export const ContentPage: React.FC = () => {
                         {item.title}
                       </h3>
                       <span className="text-sm font-bold text-[#235DEB] shrink-0">
-                        Watch ↗
+                        Watch →
                       </span>
                     </div>
                     <p className="text-sm sm:text-base text-[#303E48] mt-1.5 leading-relaxed">
                       {item.caption}
                     </p>
                   </div>
-                </a>
+                </button>
               </article>
             ))}
           </div>
@@ -248,12 +260,11 @@ export const ContentPage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {toolPhotos.map((tool) => (
-              <a
+              <button
                 key={tool.id}
-                href={`https://www.youtube.com/watch?v=${tool.youtubeId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
+                type="button"
+                onClick={() => handlePlayInTheatre(tool.youtubeId)}
+                className="group block w-full text-left bg-transparent border-0 p-0 cursor-pointer"
               >
                 <div className="aspect-[3/4] overflow-hidden bg-[#17232C]">
                   <img
@@ -265,14 +276,19 @@ export const ContentPage: React.FC = () => {
                   />
                 </div>
                 <div className="pt-4">
-                  <h3 className="font-display font-bold text-2xl text-[#17232C] group-hover:text-[#235DEB] transition-colors">
-                    {tool.title}
-                  </h3>
+                  <div className="flex items-center justify-between gap-2">
+                    <h3 className="font-display font-bold text-2xl text-[#17232C] group-hover:text-[#235DEB] transition-colors">
+                      {tool.title}
+                    </h3>
+                    <span className="text-sm font-bold text-[#235DEB] shrink-0">
+                      Watch →
+                    </span>
+                  </div>
                   <p className="text-sm sm:text-base text-[#303E48] mt-1.5 leading-relaxed">
                     {tool.caption}
                   </p>
                 </div>
-              </a>
+              </button>
             ))}
           </div>
 

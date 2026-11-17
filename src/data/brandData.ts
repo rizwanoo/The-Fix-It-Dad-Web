@@ -174,6 +174,20 @@ export const FEATURED_VIDEOS: VideoContentItem[] = [
     image: '/assets/images/the-fix-it-dad/videos-and-thumbnails/three-ps-bathroom-guide-zzNEE0Jr8IA.jpg',
     summary: 'Practical homeowner guidance straight from real Spartan drain-clearing service calls.',
   },
+  {
+    id: 'eGBOpGunnes',
+    title: 'Replacing a residential shower drain like a pro',
+    category: 'Real Plumbing Projects',
+    image: '/assets/images/the-fix-it-dad/plumbing-work/replacing-shower-drain-eGBOpGunnes.jpg',
+    summary: 'Removing and prepping a shower drain assembly from underneath with clean sealing.',
+  },
+  {
+    id: 'X5rN7J594r8',
+    title: 'Replacing an outside faucet from the service van',
+    category: 'Tools & Products',
+    image: '/assets/images/the-fix-it-dad/plumbing-work/replacing-outside-faucet-X5rN7J594r8.jpg',
+    summary: 'Hand tools, brass hose bibs, and cutters organized on the back doors for outdoor faucet swaps.',
+  },
 ];
 
 export const PHOTO_ARCHIVE: PhotoShowcaseItem[] = [

@@ -5,11 +5,26 @@ import { VideoContentItem } from '../data/brandData';
 interface YouTubeTheatreProps {
   videos: VideoContentItem[];
   heading?: string;
+  activeVideoId?: string;
+  playSignal?: number;
 }
 
-export const YouTubeTheatre: React.FC<YouTubeTheatreProps> = ({ videos }) => {
+export const YouTubeTheatre: React.FC<YouTubeTheatreProps> = ({
+  videos,
+  activeVideoId,
+  playSignal = 0,
+}) => {
   const [selected, setSelected] = useState<VideoContentItem>(videos[0]);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  React.useEffect(() => {
+    if (!activeVideoId) return;
+    const match = videos.find((v) => v.id === activeVideoId);
+    if (match) {
+      setSelected(match);
+      if (playSignal > 0) setIsPlaying(true);
+    }
+  }, [activeVideoId, playSignal, videos]);
 
   const handleSelect = (item: VideoContentItem) => {
     setSelected(item);
